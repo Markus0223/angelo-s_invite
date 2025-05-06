@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Markus Augusto">
+  <title>Convite Especial!</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #77e99f, #e76e60);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+      position: relative;
+    }
+
+    h1 {
+      color: #1b38ac;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .emoji {
+      font-size: 50px;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    .botoes {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #sim {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    #nao {
+      background-color: #f44336;
+      color: white;
+      position: relative;
+    }
+
+    .agradecimento {
+      display: none;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #4CAF50;
+      font-size: 18px;
+    }
+
+    .agradecimento2 {
+    display: none;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #4CAF50;
+    font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="emoji">🎁</div>
+    <h1>Convite Especial</h1>
+    <p>Você aceita ser o nosso padrinho da turma?</p>
+    
+    <div class="botoes">
+      <button id="sim" onclick="aceitou(); sumir()">Sim, com orgulho!</button>
+      <button id="nao" onmouseover="desvia(this)">Não</button>
+    </div>
+
+    <div class="agradecimento" id="agradecimento">Sabia que iria aceitar!</div>
+    <div class="agradecimento2" id="agradecimento2">😆😆😆😆</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    function sumir() {
+      document.getElementById('nao').style.display = "none";
+    }
+
+    function aceitou() {
+      document.getElementById('agradecimento').style.display = 'block';
+      document.getElementById('agradecimento2').style.display = 'block';
+
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      const duration = 2000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) return clearInterval(interval);
+
+        confetti(Object.assign({}, defaults, {
+          particleCount: 10,
+          origin: {
+            x: randomInRange(0.1, 0.9),
+            y: Math.random() - 0.2
+          }
+        }));
+      }, 250);
+    }
+
+    function desvia(botao) {
+      const card = document.querySelector(".card");
+      const largura = card.offsetWidth - botao.offsetWidth;
+      const altura = card.offsetHeight - botao.offsetHeight;
+
+      const novaEsquerda = Math.random() * largura;
+      const novaTopo = Math.random() * altura;
+
+      botao.style.position = "absolute";
+      botao.style.left = novaEsquerda + "px";
+      botao.style.top = novaTopo + "px";
+    }
+  </script>
+
+</body>
+</html>
